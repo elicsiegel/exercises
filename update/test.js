@@ -1,5 +1,5 @@
 var assert = require('assert');
-var update = require('./');
+var update = require('./update.js');
 
 describe('update', function() {
 
@@ -18,7 +18,7 @@ describe('update', function() {
       commands = { a: { c: {$set: 44} } };
       nextState = update(state, commands);
     });
-
+    
     it('changes the tree on the directive', function() {
       assert(state.a.c !== nextState.a.c);
     })
@@ -30,14 +30,11 @@ describe('update', function() {
     it('reuses state on same level', function() {
       assert(state.a.b === state.a.b);
     });
-
-
   });
 
 
 
   describe("can pass react's test suite", function() {
-
 
     it('should support push', function() {
       assert.deepEqual(update([1], {$push: [7]}), [1, 7]);
