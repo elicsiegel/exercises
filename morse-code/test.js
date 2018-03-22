@@ -1,6 +1,6 @@
 var assert = require('assert');
 var sinon = require('sinon');
-var transmitter = require('./');
+var transmitter = require('./transmitter');
 var codes = require('./codes');
 
 describe('transmitter', function() {
@@ -20,7 +20,9 @@ describe('transmitter', function() {
     startTime = new Date();
     toggle = function() {
       toggledHistory.push(new Date() - startTime);
+      console.log(toggledHistory)
     };
+
     timeouter = function(fn, ms) {
       setTimeout(function() {
         fn();
@@ -53,6 +55,7 @@ describe('transmitter', function() {
       timeouter: timeouter
     }
     transmitter(options, function() {
+      console.log(toggledHistory)
       assert.deepEqual(toggledHistory, [
         0, 50, 100, 150, 200, 250, 400, 550, 600, 750, 800,
         950, 1100, 1150, 1200, 1250, 1300, 1350
