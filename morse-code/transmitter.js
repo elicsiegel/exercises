@@ -1,8 +1,27 @@
 const transmitter = (options = {}, callback) => {
   let words = options.message.split(" ");
   let binaryCode = convertWordsToBinary(words, options.codes);
-  console.log("full sentence " + binaryCode);
 
+  executeLightbulb(options, binaryCode, callback);
+};
+
+const executeLightbulb = (options, binaryCode, callback) => {
+  const {timeouter, toggle} = options;
+  var currentState = "0";
+  var idx = 0;
+  const flipSwitch = () => {
+      if (idx > binaryCode.length) {
+          return callback();
+      }
+      if (binaryCode[idx] !== currentState) {
+          currentState = binaryCode[idx];
+          toggle();
+      }
+      idx += 1;
+      timeouter(flipSwitch, 1);
+  }
+
+  flipSwitch();
 };
 
 const convertWordsToBinary = (words, codes) => {
@@ -10,8 +29,8 @@ const convertWordsToBinary = (words, codes) => {
 
   for (var i = 0; i < words.length; i++) {
     binaryCodes += convertWordtoBinary(words[i], codes);
-    if (i < (words.length)) {
-      // binaryCodes += "0000000";
+    if (words.length > 1 && i < (words.length - 1) ) {
+      binaryCodes += "0000000";
     }
   }
   return binaryCodes;
@@ -49,8 +68,7 @@ const letterToBinary = (letter, codes) => {
       nums += "0"
     }
   }
-  console.log("letter " + morseVersion);
-  console.log("letter in nums " + nums);
+
   return nums;
 };
 

@@ -20,7 +20,6 @@ describe('transmitter', function() {
     startTime = new Date();
     toggle = function() {
       toggledHistory.push(new Date() - startTime);
-      console.log(toggledHistory)
     };
 
     timeouter = function(fn, ms) {
